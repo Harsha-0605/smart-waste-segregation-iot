@@ -49,3 +49,7 @@ smart-waste-segregation-iot
 - AI-based waste classification
 - Camera-based object detection
 - IoT dashboard monitoring
+
+## Circuit Diagram
+
+![Circuit Diagram](circuit/circuit_diagram.png)
