@@ -50,22 +50,17 @@ Waste Bin Prototype Structure         |           1
  ----------SYSTEM ARCHITECTURE 📐----------
 
  Waste Detection
-     │
-     ▼
+     ▶
 Sensors Trigger Controller
 (Dry / Metal / Wet)
-     │
-     ▼
+     ▶
 Arduino Processes Input
-     │
-     ▼
+     ▶
 Stepper Motor Rotates Bin
 (A4988 Driver)
-     │
-     ▼
+     ▶
 Servo Motor Opens Lid
-     │
-     ▼
+     ▶
 Waste Drops into Correct Compartment
 
 
