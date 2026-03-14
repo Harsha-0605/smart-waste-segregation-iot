@@ -17,7 +17,7 @@ and separation using sensors and microcontroller-based control.
 ## Hardware Components
 - Microcontroller (Arduino / ESP32)
 - Stepper Motor
-- A4988 Stepper Motor Driver
+- Stepper Motor Driver
 - IR Sensor
 - Metal sensor
 - Raindrop sensor
