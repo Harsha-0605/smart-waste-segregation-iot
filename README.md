@@ -29,11 +29,13 @@ An automated system can detect waste type and sort it into the correct category 
 | Component | Description |
 |----------|-------------|
 | Arduino Uno | Main microcontroller |
-| IR Sensor | Detects waste object |
+| IR Sensor | Detects Dry waste |
 | Rain Sensor | Detects wet waste |
+| Metal Sensor | Detects Metal waste |
 | Stepper Motor | Rotates segregation mechanism |
-| A4988 Driver | Controls stepper motor |
-| Breadboard | Circuit connections |
+| Motor Driver | Controls stepper motor |
+| Servo Motor | Opens lid |
+| Breadboard / PCB | Circuit connections |
 | Power Supply | 12V external supply |
 
 ---
@@ -73,8 +75,11 @@ smart-waste-segregation-iot
 1. Waste is placed into the smart dustbin.
 2. The IR sensor detects the presence of waste.
 3. The rain sensor checks if the waste is wet or dry.
-4. The Arduino processes the sensor input.
-5. The stepper motor rotates the bin mechanism to the appropriate compartment.
+4. The Metal sensor checks if the waste is metal.
+5. The Arduino processes the sensor input.
+6. The stepper motor rotates the bin mechanism to the appropriate compartment.
+7. The servo motor opens the lid and drops the waste and closes.
+8. The stepper motor will return to it's original position.
 
 ---
 
