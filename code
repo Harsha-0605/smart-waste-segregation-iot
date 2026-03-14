@@ -1,1 +1,120 @@
+/*
+Smart Waste Segregation System
 
+Author: Harsha Teja
+Platform: Arduino / ESP32
+
+Description:
+This program reads sensor data to detect waste type and 
+controls servo motors to segregate waste automatically.
+*/
+
+#include <Stepper.h>
+#include <Servo.h>
+
+// ----------- SENSOR PINS -----------
+#define IR_SENSOR_PIN        2
+#define PROXIMITY_SENSOR_PIN 3
+#define RAIN_SENSOR_PIN      A0
+
+// ----------- SERVO -----------
+#define SERVO_PIN 5
+
+// ----------- L298N STEPPER -----------
+#define IN1 8
+#define IN2 9
+#define IN3 10
+#define IN4 11
+
+// ----------- CONFIG -----------
+const int STEPS_PER_REV = 200;
+
+// Angle → Steps
+const int DRY_STEPS   = 50;    // 90°
+const int WET_STEPS   = 100;   // 180°
+const int METAL_STEPS = 150;   // 270°
+
+const int WET_THRESHOLD = 500;
+
+// ----------- OBJECTS -----------
+Stepper stepperMotor(STEPS_PER_REV, IN1, IN3, IN2, IN4);
+Servo lidServo;
+
+// ----------- SETUP -----------
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(IR_SENSOR_PIN, INPUT);
+  pinMode(PROXIMITY_SENSOR_PIN, INPUT);
+
+  stepperMotor.setSpeed(60);   // RPM (don’t go too high for L298N)
+
+  lidServo.attach(SERVO_PIN);
+  lidServo.write(0);           // Lid closed
+
+  Serial.println("Smart Waste Segregation System Ready");
+}
+
+// ----------- LOOP -----------
+void loop() {
+
+  // IR detects object
+  if (digitalRead(IR_SENSOR_PIN) == LOW) {
+    Serial.println("Object detected");
+    delay(300);
+
+    sortWaste();
+
+    // Wait until object is removed
+    while (digitalRead(IR_SENSOR_PIN) == LOW) {
+      delay(50);
+    }
+
+    Serial.println("Ready for next object\n");
+    delay(500);
+  }
+}
+
+// ----------- SORTING LOGIC -----------
+void sortWaste() {
+
+  // 1️⃣ Check METAL first
+  if (digitalRead(PROXIMITY_SENSOR_PIN) == LOW) {
+    Serial.println("METAL waste detected");
+    rotateOpenDrop(METAL_STEPS);
+    return;
+  }
+
+  // 2️⃣ Check moisture
+  int moisture = analogRead(RAIN_SENSOR_PIN);
+  Serial.print("Moisture value: ");
+  Serial.println(moisture);
+
+  if (moisture < WET_THRESHOLD) {
+    Serial.println("WET waste detected");
+    rotateOpenDrop(WET_STEPS);
+  } else {
+    Serial.println("DRY waste detected");
+    rotateOpenDrop(DRY_STEPS);
+  }
+}
+
+// ----------- MOTOR + SERVO ACTION -----------
+void rotateOpenDrop(int steps) {
+
+  // Rotate to bin
+  stepperMotor.step(steps);
+  delay(300);
+
+  // Open lid
+  lidServo.write(90);
+  delay(2000);
+
+  // Close lid
+  lidServo.write(0);
+  delay(500);
+
+  // Return to original position
+  stepperMotor.step(-steps);
+  delay(300);
+}
