@@ -16,8 +16,11 @@ and separation using sensors and microcontroller-based control.
 
 ## Hardware Components
 - Microcontroller (Arduino / ESP32)
-- Ultrasonic Sensor
+- Stepper Motor
+- A4988 Stepper Motor Driver
 - IR Sensor
+- Metal sensor
+- Raindrop sensor
 - Servo Motor
 - Waste Bin Structure
 - Power Supply
