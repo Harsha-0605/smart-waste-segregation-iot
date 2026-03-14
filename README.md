@@ -141,7 +141,7 @@ V Harsha Teja
 Electronics & Communication Engineering
 Interested in AIoT, IIoT, and Embedded Systems
 
-GitHub: 
+GitHub: https://github.com/Harsha-0605
 
 License:
 This project is open-source and available under the MIT License.
